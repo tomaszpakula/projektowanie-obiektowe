@@ -14,9 +14,10 @@ liczbę za pomocą sortowania bąbelkowego.
 
 ✅ 4.5 5 testów jednostkowych testujące procedury [commit](https://github.com/tomaszpakula/projektowanie-obiektowe/tree/c05a2a1cc29f83ee5451438ba2e314cdbaf973f6)
 
-✅ 5.0 Skrypt w bashu do uruchamiania aplikacji w Pascalu via docker [commit]()
+✅ 5.0 Skrypt w bashu do uruchamiania aplikacji w Pascalu via docker [commit](https://github.com/tomaszpakula/projektowanie-obiektowe/tree/0481a144e75ed01b3d12907cf6bf46e3f1fa6001)
 
 
+[katalog](https://github.com/tomaszpakula/projektowanie-obiektowe/tree/main/zadanie1)
 
 **zadanie 2 Symfony**
 
