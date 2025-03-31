@@ -8,7 +8,7 @@ liczbę za pomocą sortowania bąbelkowego.
 
 ✅ 3.0 Procedura do generowania 50 losowych liczb od 0 do 100
 
-:black_square_button: 3.5 Procedura do sortowania liczb
+✅ 3.5 Procedura do sortowania liczb
 
 :black_square_button: 4.0 Dodanie parametrów do procedury losującej określającymi zakres losowania: od, do, ile
 
