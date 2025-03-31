@@ -6,7 +6,7 @@ Proszę napisać program w Pascalu, który zawiera dwie procedury, jedna
 generuje listę 50 losowych liczb od 0 do 100. Druga procedura sortuje
 liczbę za pomocą sortowania bąbelkowego.
 
-:black_square_button: 3.0 Procedura do generowania 50 losowych liczb od 0 do 100
+✅ 3.0 Procedura do generowania 50 losowych liczb od 0 do 100
 
 :black_square_button: 3.5 Procedura do sortowania liczb
 
