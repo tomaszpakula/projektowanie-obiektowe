@@ -6,15 +6,16 @@ Proszę napisać program w Pascalu, który zawiera dwie procedury, jedna
 generuje listę 50 losowych liczb od 0 do 100. Druga procedura sortuje
 liczbę za pomocą sortowania bąbelkowego.
 
-✅ 3.0 Procedura do generowania 50 losowych liczb od 0 do 100
+✅ 3.0 Procedura do generowania 50 losowych liczb od 0 do 100 [commit](https://github.com/tomaszpakula/projektowanie-obiektowe/tree/26ea9544de79941a88d946333e40586f9282a58f)
 
-✅ 3.5 Procedura do sortowania liczb
+✅ 3.5 Procedura do sortowania liczb [commit](https://github.com/tomaszpakula/projektowanie-obiektowe/tree/6edacb5ef2df24b012b4c9ecb31b3039b65fc7da)
 
-✅ 4.0 Dodanie parametrów do procedury losującej określającymi zakres losowania: od, do, ile
+✅ 4.0 Dodanie parametrów do procedury losującej określającymi zakres losowania: od, do, ile [commit](https://github.com/tomaszpakula/projektowanie-obiektowe/tree/6edacb5ef2df24b012b4c9ecb31b3039b65fc7da)
 
-✅ 5 testów jednostkowych testujące procedury
+✅ 4.5 5 testów jednostkowych testujące procedury [commit](https://github.com/tomaszpakula/projektowanie-obiektowe/tree/c05a2a1cc29f83ee5451438ba2e314cdbaf973f6)
 
-🔲 5.0 Skrypt w bashu do uruchamiania aplikacji w Pascalu via docker
+✅ 5.0 Skrypt w bashu do uruchamiania aplikacji w Pascalu via docker [commit]()
+
 
 
 **zadanie 2 Symfony**
