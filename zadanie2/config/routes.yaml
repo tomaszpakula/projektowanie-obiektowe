@@ -1,0 +1,14 @@
+product_list:
+    path: /products
+    controller: App\Controller\ProductController::getProducts
+    methods: [GET]
+
+product_get:
+    path: /products/{id}
+    controller: App\Controller\ProductController::getProductByID
+    methods: [GET]
+
+product_create:
+    path: /products
+    controller: App\Controller\ProductController::createProduct
+    methods: [POST]
