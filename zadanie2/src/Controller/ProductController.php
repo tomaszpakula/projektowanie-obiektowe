@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Entity\Product;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -9,84 +11,111 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 class ProductController extends AbstractController
-{
+{   
     /**
     * @Route("/products", name="product_list", methods={"GET"})
     */
-    public function getProducts(): JsonResponse
+    public function getProducts(EntityManagerInterface $em): JsonResponse
     {
-        $dbPath = $this->getParameter('kernel.project_dir') . '/var/data.db';
-        $pdo = new \PDO('sqlite:' . $dbPath);
+        
+        $products = $em->getRepository(Product::class)->findAll();
+        $data = [];
 
-        $stmt = $pdo->query('SELECT * FROM product');
-        $products = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        foreach ($products as $product) {
+            $data[] = [
+                'id' => $product->getId(),
+                'name' => $product->getName(),
+                'price' => $product->getPrice(),
+            ];
+        }
 
-        return new JsonResponse($products);
+        return new JsonResponse($data);
     }
 
     /**
     * @Route("/products/{id}", name="product_get", methods={"GET"})
     */
-    public function getProductById(int $id): JsonResponse
+    public function getProductById(EntityManagerInterface $em,int $id): JsonResponse
     {
-        $dbPath = $this->getParameter('kernel.project_dir') . '/var/data.db';
-        $pdo = new \PDO('sqlite:' . $dbPath);
-
-        $stmt = $pdo->prepare('SELECT * FROM product WHERE id = :id');
-        $stmt->execute([':id' => $id]);
-       
-        $product = $stmt->fetch(\PDO::FETCH_ASSOC);
+        $product = $em->getRepository(Product::class)->find($id);
         if (!$product) {
             return new JsonResponse(['error' => 'Product not found with id: ' . $id], Response::HTTP_NOT_FOUND);
         }
     
-        return new JsonResponse($product);
-    }
+        $data = [
+            'id' => $product->getId(),
+            'name' => $product->getName(),
+            'price' => $product->getPrice(),
+        ];
 
+        return new JsonResponse($data);
+    
+    }
     /**
     * @Route("/products", name="product_create", methods={"POST"})
     */
-    public function createProduct(Request $request): JsonResponse
+    public function createProduct(Request $request, EntityManagerInterface $em): JsonResponse
     {
-        $name = $request->request->get('name');
-        $price = $request->request->get('price');
-        $dbPath = $this->getParameter('kernel.project_dir') . '/var/data.db';
-        $pdo = new \PDO('sqlite:' . $dbPath);
+        $data = json_decode($request->getContent(), true);
+        $name = $data['name'] ?? null;
+        $price = $data['price'] ?? null;
 
-        $stmt = $pdo->prepare('INSERT INTO product (name, price) VALUES (:name, :price)');
-        $stmt->execute([':name' => $name, ':price' => $price]);
+        if (!$name || !$price) {
+            return new JsonResponse(['error' => 'Invalid input'], Response::HTTP_BAD_REQUEST);
+        }
 
-        
-        return new JsonResponse(['message' => 'Product created successfully']);
+        $product = new Product();
+        $product->setName($name);
+        $product->setPrice($price);
+
+        $em->persist($product);
+        $em->flush();
+
+        return new JsonResponse(['message' => 'Product created successfully', 'id' => $product->getId()]);
     }
 
      /**
     * @Route("/products/{id}", name="product_update", methods={"PUT"})
     */
-    public function updateProduct(Request $request, int $id): JsonResponse
+    public function updateProduct(Request $request, EntityManagerInterface $em, int $id): JsonResponse
     {
-        $name = $request->request->get('name');
-        $price = $request->request->get('price');
-        $dbPath = $this->getParameter('kernel.project_dir') . '/var/data.db';
-        $pdo = new \PDO('sqlite:' . $dbPath);
+        $product = $em->getRepository(Product::class)->find($id);
 
-        $stmt = $pdo->prepare('UPDATE product SET name = :name, price = :price WHERE id = :id');
-        $stmt->execute([':name' => $name, ':price' => $price, ':id' => $id]);
+        if (!$product) {
+            return new JsonResponse(['error' => 'Product not found'], Response::HTTP_NOT_FOUND);
+        }
 
-    
+        $data = json_decode($request->getContent(), true);
+        $name = $data['name'] ?? null;
+        $price = $data['price'] ?? null;
+
+        if ($name) {
+            $product->setName($name);
+        }
+
+        if ($price !== null) {
+            $product->setPrice($price);
+        }
+
+        $em->flush();
+
         return new JsonResponse(['message' => 'Product updated successfully']);
     }
 
     /**
     * @Route("/products/{id}", name="product_delete", methods={"DELETE"})
     */
-    public function deleteProduct(int $id): Response
+    public function deleteProduct(EntityManagerInterface $em, int $id): Response
     {
-        $dbPath = $this->getParameter('kernel.project_dir') . '/var/data.db';
-        $pdo = new \PDO('sqlite:' . $dbPath);
+        $product = $em->getRepository(Product::class)->find($id);
 
-        $stmt = $pdo->prepare('DELETE FROM product WHERE id = :id');
-        $stmt->execute([':id' => $id]);
+        if (!$product) {
+            return new JsonResponse(['error' => 'Product not found'], Response::HTTP_NOT_FOUND);
+        }
+
+        $em->remove($product);
+        $em->flush();
+
         return new JsonResponse(['message' => 'Product deleted successfully']);
     }
 }
