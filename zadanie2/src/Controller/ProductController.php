@@ -6,59 +6,50 @@ use App\Entity\Product;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\JsonResponse;
 
 class ProductController extends AbstractController
 {   
     /**
     * @Route("/products", name="product_list", methods={"GET"})
     */
-    public function getProducts(EntityManagerInterface $em): JsonResponse
+    public function getProducts(EntityManagerInterface $em): Response
     {
         
         $products = $em->getRepository(Product::class)->findAll();
-        $data = [];
 
-        foreach ($products as $product) {
-            $data[] = [
-                'id' => $product->getId(),
-                'name' => $product->getName(),
-                'price' => $product->getPrice(),
-            ];
-        }
+        return $this->render('product/index.html.twig', [
+            'products' => $products,
+        ]);
 
-        return new JsonResponse($data);
     }
 
     /**
     * @Route("/products/{id}", name="product_get", methods={"GET"})
     */
-    public function getProductById(EntityManagerInterface $em,int $id): JsonResponse
+    public function getProductById(EntityManagerInterface $em,int $id): Response
     {
         $product = $em->getRepository(Product::class)->find($id);
         if (!$product) {
-            return new JsonResponse(['error' => 'Product not found with id: ' . $id], Response::HTTP_NOT_FOUND);
+            return $this->render('product/not_found.html.twig', [
+                'id' => $id
+            ]);
         }
-    
-        $data = [
-            'id' => $product->getId(),
-            'name' => $product->getName(),
-            'price' => $product->getPrice(),
-        ];
 
-        return new JsonResponse($data);
+        return $this->render('product/show.html.twig', [
+            'product' => $product,
+        ]);
     
     }
     /**
     * @Route("/products", name="product_create", methods={"POST"})
     */
-    public function createProduct(Request $request, EntityManagerInterface $em): JsonResponse
+    public function createProduct(Request $request, EntityManagerInterface $em): Response
     {
-        $data = json_decode($request->getContent(), true);
-        $name = $data['name'] ?? null;
-        $price = $data['price'] ?? null;
+        $name = $request->request->get('name');
+        $price = $request->request->get('price');
 
         if (!$name || !$price) {
             return new JsonResponse(['error' => 'Invalid input'], Response::HTTP_BAD_REQUEST);
@@ -71,23 +62,23 @@ class ProductController extends AbstractController
         $em->persist($product);
         $em->flush();
 
-        return new JsonResponse(['message' => 'Product created successfully', 'id' => $product->getId()]);
+        return $this->redirectToRoute('product_list');
+
     }
 
      /**
     * @Route("/products/{id}", name="product_update", methods={"PUT"})
     */
-    public function updateProduct(Request $request, EntityManagerInterface $em, int $id): JsonResponse
+    public function updateProduct(Request $request, EntityManagerInterface $em, int $id): Response
     {
         $product = $em->getRepository(Product::class)->find($id);
 
         if (!$product) {
-            return new JsonResponse(['error' => 'Product not found'], Response::HTTP_NOT_FOUND);
+            return new Response(['error' => 'Product not found'], Response::HTTP_NOT_FOUND);
         }
 
-        $data = json_decode($request->getContent(), true);
-        $name = $data['name'] ?? null;
-        $price = $data['price'] ?? null;
+        $name = $request->request->get('name');
+        $price = $request->request->get('price');
 
         if ($name) {
             $product->setName($name);
@@ -99,7 +90,7 @@ class ProductController extends AbstractController
 
         $em->flush();
 
-        return new JsonResponse(['message' => 'Product updated successfully']);
+        return $this->redirectToRoute('product_list');
     }
 
     /**
@@ -110,12 +101,12 @@ class ProductController extends AbstractController
         $product = $em->getRepository(Product::class)->find($id);
 
         if (!$product) {
-            return new JsonResponse(['error' => 'Product not found'], Response::HTTP_NOT_FOUND);
+            return new Response(['error' => 'Product not found'], Response::HTTP_NOT_FOUND);
         }
 
         $em->remove($product);
         $em->flush();
 
-        return new JsonResponse(['message' => 'Product deleted successfully']);
+        return $this->redirectToRoute('product_list');
     }
 }

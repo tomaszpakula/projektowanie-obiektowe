@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Category List</title>
+</head>
+<body>
+    <h1>List of Categories</h1>
+    <ul>
+        {% for category in categories %}
+            <li>
+                <a href="{{ path('category_get', {'id': category.id}) }}">{{ category.name }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+    <h1>Create New Category</h1>
+
+    <form action="{{ path('category_create') }}" method="POST">
+        <label for="name">Category Name:</label>
+        <input type="text" id="name" name="name" required>
+        
+        <button type="submit">Create Category</button>
+    </form>
+</body>
+</html>

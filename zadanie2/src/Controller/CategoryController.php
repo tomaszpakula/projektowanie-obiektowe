@@ -15,74 +15,64 @@ class CategoryController extends AbstractController
     /**
     * @Route("/category", name="category_list", methods={"GET"})
     */
-    public function getCategory(EntityManagerInterface $em): JsonResponse
+    public function getCategory(EntityManagerInterface $em): Response
     {
         
         $categories = $em->getRepository(Category::class)->findAll();
-        $data = [];
-
-        foreach ($categories as $category) {
-            $data[] = [
-                'id' => $category->getId(),
-                'name' => $category->getName(),
-            ];
-        }
-
-        return new JsonResponse($data);
+        return $this->render('category/index.html.twig', [
+            'categories' => $categories,
+        ]);
     }
 
     /**
-    * @Route("/category/{id}", name="vategory_get", methods={"GET"})
+    * @Route("/category/{id}", name="category_get", methods={"GET"})
     */
-    public function getCategoryById(EntityManagerInterface $em,int $id): JsonResponse
+    public function getCategoryById(EntityManagerInterface $em,int $id): Response
     {
-        $Category = $em->getRepository(Category::class)->find($id);
-        if (!$Category) {
-            return new JsonResponse(['error' => 'Category not found with id: ' . $id], Response::HTTP_NOT_FOUND);
+        $category = $em->getRepository(Category::class)->find($id);
+        if (!$category) {
+            return $this->render('category/not_found.html.twig', [
+                'id' => $id
+            ]);
         }
-    
-        $data = [
-            'id' => $Category->getId(),
-            'name' => $Category->getName(),
-        ];
 
-        return new JsonResponse($data);
+        return $this->render('category/show.html.twig', [
+            'category' => $category,
+        ]);
     
     }
     /**
-    * @Route("/category", name="Category_create", methods={"POST"})
+    * @Route("/category", name="category_create", methods={"POST"})
     */
-    public function createCategory(Request $request, EntityManagerInterface $em): JsonResponse
+    public function createCategory(Request $request, EntityManagerInterface $em): Response
     {
-        $data = json_decode($request->getContent(), true);
-        $name = $data['name'] ?? null;
-    
+        $name = $request->request->get('name');
+
         if (!$name) {
             return new JsonResponse(['error' => 'Invalid input'], Response::HTTP_BAD_REQUEST);
         }
 
-        $Category = new Category();
-        $Category->setName($name);
+        $category = new Category();
+        $category->setName($name);
 
-        $em->persist($Category);
+        $em->persist($category);
         $em->flush();
 
-        return new JsonResponse(['message' => 'Category created successfully', 'id' => $Category->getId()]);
+        return $this->redirectToRoute('category_list');
     }
 
      /**
     * @Route("/category/{id}", name="category_update", methods={"PUT"})
     */
-    public function updateCategory(Request $request, EntityManagerInterface $em, int $id): JsonResponse
+    public function updateCategory(Request $request, EntityManagerInterface $em, int $id): Response
     {
         $category = $em->getRepository(Category::class)->find($id);
 
         if (!$category) {
-            return new JsonResponse(['error' => 'Category not found'], Response::HTTP_NOT_FOUND);
+            return new Response(['error' => 'Category not found'], Response::HTTP_NOT_FOUND);
         }
 
-        $data = json_decode($request->getContent(), true);
-        $name = $data['name'] ?? null;
+        $name = $request->request->get('name');
 
         if ($name) {
             $category->setName($name);
@@ -90,7 +80,7 @@ class CategoryController extends AbstractController
 
         $em->flush();
 
-        return new JsonResponse(['message' => 'Category updated successfully']);
+        return new Response(['message' => 'Category updated successfully']);
     }
 
     /**
@@ -101,12 +91,12 @@ class CategoryController extends AbstractController
         $category = $em->getRepository(Category::class)->find($id);
 
         if (!$category) {
-            return new JsonResponse(['error' => 'Category not found'], Response::HTTP_NOT_FOUND);
+            return new Response(['error' => 'Category not found'], Response::HTTP_NOT_FOUND);
         }
 
         $em->remove($category);
         $em->flush();
 
-        return new JsonResponse(['message' => 'Category deleted successfully']);
+        return new Response(['message' => 'Category deleted successfully']);
     }
 }
