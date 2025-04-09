@@ -45,7 +45,7 @@ i powinna zostać napisana w języku Kotlin. Oparta powinna zostać na
 frameworku Spring Boot, podobnie jak na zajęciach. Serwis do
 autoryzacji powinien być singletonem.
 
-🔲 3.0 Należy stworzyć jeden kontroler wraz z danymi wyświetlanymi z
+✅ 3.0 Należy stworzyć jeden kontroler wraz z danymi wyświetlanymi z
 listy na endpoint’cie w formacie JSON - Kotlin + Spring Boot
 
 🔲 3.5 Należy stworzyć klasę do autoryzacji (mock) jako Singleton w
