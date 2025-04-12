@@ -33,7 +33,7 @@ SQLite.
 
 ✅ 4.5 Należy stworzyć widoki do wszystkich kontrolerów
 
-🔲 5.0 Stworzenie panelu administracyjnego z mockowanym logowaniem
+✅ 5.0 Stworzenie panelu administracyjnego z mockowanym logowaniem
 
 **Zadanie 3** Wzorce kreacyjne - Spring Boot (Kotlin)
 
