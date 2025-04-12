@@ -20,7 +20,7 @@ func InitWeather() {
 	weathers := []models.Weather{
 		{Location: "London", TempC: 13.4, TempF: 56.1, Condition: "Party Cloudy"},
 		{Location: "Paris", TempC: 13.4, TempF: 56.1, Condition: "Party Cloudy"},
-		{Location: "Cracow", TempC: 13.4, TempF: 56.1, Condition: "Party Cloudy"},
+		{Location: "Kraków", TempC: 13.4, TempF: 56.1, Condition: "Party Cloudy"},
 	}
 	for _, w := range weathers {
 		DB.Create(&w)
