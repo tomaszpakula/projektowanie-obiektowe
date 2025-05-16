@@ -1,6 +1,6 @@
 # projektowanie-obiektowe
 
-**zadanie 1 Pascal**
+# **Zadanie 1 Pascal**
 
 Proszę napisać program w Pascalu, który zawiera dwie procedury, jedna
 generuje listę 50 losowych liczb od 0 do 100. Druga procedura sortuje
@@ -19,7 +19,7 @@ liczbę za pomocą sortowania bąbelkowego.
 
 [katalog](https://github.com/tomaszpakula/projektowanie-obiektowe/tree/main/zadanie1)
 
-**zadanie 2 Symfony**
+# **Zadanie 2 Symfony**
 
 Należy stworzyć aplikację webową na bazie frameworka Symfony na
 obrazie kprzystalski/projobj-php:latest. Baza danych dowolna, sugeruję
@@ -35,7 +35,9 @@ SQLite.
 
 ✅ 5.0 Stworzenie panelu administracyjnego z mockowanym logowaniem
 
-**Zadanie 3** Wzorce kreacyjne - Spring Boot (Kotlin)
+[katalog](https://github.com/tomaszpakula/projektowanie-obiektowe/tree/main/zadanie2)
+
+# **Zadanie 3** Wzorce kreacyjne - Spring Boot (Kotlin)
 
 Proszę stworzyć prosty serwis do autoryzacji, który zasymuluje
 autoryzację użytkownika za pomocą przesłanej nazwy użytkownika oraz
@@ -58,7 +60,9 @@ formie
 ✅ 5.0 Obok wersji Eager do wyboru powinna być wersja Singletona w wersji
 lazy
 
-**Zadanie 4** Wzorce strukturalne Echo (Go)
+[katalog](https://github.com/tomaszpakula/projektowanie-obiektowe/tree/main/zadanie3)
+
+# **Zadanie 4** Wzorce strukturalne Echo (Go)
 Należy stworzyć aplikację w Go na frameworku echo. Aplikacja ma mieć
 jeden endpoint, minimum jedną funkcję proxy, która pobiera dane np. o
 pogodzie, giełdzie, etc. (do wyboru) z zewnętrznego API. Zapytania do
@@ -78,3 +82,79 @@ zewnętrznego podczas zapytania do naszego kontrolera
 
 ✅ 5.0 Należy rozszerzyć endpoint na więcej niż jedną lokalizację
 (Pogoda) ~~, lub akcje (Giełda)~~ zwracając JSONa
+
+[katalog](https://github.com/tomaszpakula/projektowanie-obiektowe/tree/main/zadanie4)
+
+# **Zadanie 5** Wzorce behawioralne
+React (JavaScript/Typescript)
+
+Należy stworzyć aplikację kliencką wykorzystując bibliotekę React.js.
+Dane pomiędzy wszystkimi komponentami powinny być przesyłane za pomocą
+React hooks.
+
+✅ 3.0 W ramach projektu należy stworzyć dwa komponenty: Produkty oraz
+Płatności; Płatności powinny wysyłać do aplikacji serwerowej dane, a w
+Produktach powinniśmy pobierać dane o produktach z aplikacji
+serwerowej
+
+✅ 3.5 Należy dodać Koszyk wraz z widokiem; należy wykorzystać routing
+
+✅ 4.0 Dane pomiędzy wszystkimi komponentami powinny być przesyłane za
+pomocą React hooks
+
+✅ 4.5 Należy dodać skrypt uruchamiający aplikację serwerową oraz
+kliencką na dockerze via docker-compose
+
+✅ 5.0 Należy wykorzystać axios’a oraz dodać nagłówki pod CORS
+
+[katalog](https://github.com/tomaszpakula/e-biznes/tree/main/zadanie5)
+
+[commit](https://github.com/tomaszpakula/e-biznes/commit/92723ac26fe01d23d0b628530ea7355dc24e7c5c)
+
+# **Zadanie 6** Zapaszki
+Sonar (JS)
+W ramach zadania 6 należy zredukować błędy typu: Bugs, Security
+Hotspots, Vulnerabilities oraz Code Smells. Błędy powinny być efektem
+statycznej analizy kodu za pomocą rozwiązania Sonar Cloud
+(https://sonarcloud.io/). Dodatkowo należy w Readme.md na każdym
+repozytorium dodać badge SonarCloud do powyższych czterech typów
+błędów (https://sonarcloud.io/project/information?id=). Należy
+sprawdzić kod projektu 5 z kodem w React’cie.
+
+✅ 3.0 Należy dodać eslint w hookach gita
+
+✅ 3.5 Należy wyeliminować wszystkie bugi w kodzie w Sonarze (kod
+aplikacji klienckiej)
+
+✅ 4.0 Należy wyeliminować wszystkie zapaszki w kodzie w Sonarze (kod
+aplikacji klienckiej)
+
+✅ 4.5 Należy wyeliminować wszystkie podatności oraz błędy bezpieczeństwa
+w kodzie w Sonarze (kod aplikacji klienckiej)
+
+✅ 5.0 Zredukować duplikaty kodu do 0%
+
+[katalog](https://github.com/tomaszpakula/e-biznes/tree/main/zadanie7)
+
+[commit](https://github.com/tomaszpakula/e-biznes-client/commit/a52f9fdabad4e0d3b4a5de0794c38021189ba7c1)
+
+# **Zadanie 7** Antywzorce - Vapor (Swift)
+
+Proszę napisać prostą aplikację w Vaporze, wykorzystując Leaf jako
+silnik szablonów or Fluent jako ORM. Proszę stworzyć trzy modele oraz
+CRUD dla każdego z nich. Należy stworzyć model z minimum jedną
+relacją. CRUD powinien mieć odzwierciedlenie w szablonach.
+
+🔳 3.0 Należy stworzyć kontroler wraz z modele Produktów zgodny z CRUD w
+ORM Fluent
+
+🔳 3.5 Należy stworzyć szablony w Leaf
+
+🔳 4.0 Należy stworzyć drugi model oraz kontroler Kategorii wraz z
+relacją
+
+🔳 4.5 Należy wykorzystać Redis do przechowywania danych
+
+🔳 5.0 Wrzucić aplikację na heroku
+
+[katalog](https://github.com/tomaszpakula/projektowanie-obiektowe/tree/main/zadanie7)
