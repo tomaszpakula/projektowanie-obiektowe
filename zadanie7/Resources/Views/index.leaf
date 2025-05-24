@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+
+  <title>#(title)</title>
+</head>
+
+<body>
+  #import("body")
+
+  <script>
+    function deleteProduct(id) {
+      fetch(`/products/${id}`, {
+        method: "DELETE"
+      }).then(() => {
+        window.location.reload();
+      });
+    }
+  </script>
+</body>
+
+</html>
