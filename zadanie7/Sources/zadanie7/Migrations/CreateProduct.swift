@@ -1,15 +1,16 @@
-// import Vapor
-// import Redis
-// import Fluent
+import Fluent
 
-// struct CreateProductsJSONList: AsyncMigration {
-//     func prepare(on database: any Database) async throws {
-//         let redis = database.context.application.redis
-//         _ = try await redis.send(command: "JSON.SET", with: ["produkty", "$", "[]"])
-//     }
+struct CreateProduct: Migration {
+    func prepare(on database: any Database) -> EventLoopFuture<Void> {
+        database.schema("products")
+            .id()
+            .field("name", .string, .required)
+            .field("price", .float, .required)
+            .field("category_id", .uuid, .required, .references("categories", "id", onDelete: .cascade))
+            .create()
+    }
 
-//     func revert(on database: any Database) async throws {
-//         let redis = database.context.application.redis
-//         _ = try await redis.send(command: "DEL", with: ["produkty"])
-//     }
-// }
+    func revert(on database: any Database) -> EventLoopFuture<Void> {
+        database.schema("products").delete()
+    }
+}

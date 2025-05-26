@@ -1,5 +1,5 @@
-import Vapor
 import Fluent
+import Vapor
 
 final class Category: Model, Content, @unchecked Sendable {
     static let schema = "categories"
@@ -10,10 +10,17 @@ final class Category: Model, Content, @unchecked Sendable {
     @Field(key: "name")
     var name: String
 
-    init() {}
+    @Children(for: \.$category)
+    var products: [Product]
+
+    init() { }
 
     init(id: UUID? = nil, name: String) {
         self.id = id
         self.name = name
+    }
+
+    enum CodingKeys: CodingKey {
+        case id, name
     }
 }

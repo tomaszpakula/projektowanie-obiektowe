@@ -1,14 +1,17 @@
+import Fluent
+import FluentSQLiteDriver
 import Vapor
-import Redis
+import Leaf
 
 public func configure(_ app: Application) async throws {
-    // Redis configuration (default: localhost:6379)
-    app.redis.configuration = try RedisConfiguration(hostname: "127.0.0.1", port: 6379)
-    
-    // Setting empty product list to Redis
-    let _ = app.redis.set("products", to: "[]".data(using: .utf8)!)
-    let _ = app.redis.set("categories", to: "[]".data(using: .utf8)!)
-        
+    app.databases.use(.sqlite(.file("db.sqlite")), as: .sqlite)
+
+    app.migrations.add(CreateCategory())
+    app.migrations.add(CreateProduct())
+
+    try await app.autoMigrate().get()
+
+    app.views.use(.leaf)
+
     try routes(app)
 }
-

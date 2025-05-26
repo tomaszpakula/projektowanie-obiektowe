@@ -1,3 +1,4 @@
+import Fluent
 import Vapor
 
 struct ProductFormData: Content {
@@ -6,64 +7,62 @@ struct ProductFormData: Content {
     let categoryID: UUID
 }
 
-
+struct ProductContext: Content {
+    let data: [Product]
+    let success: Bool?
+    let categories: [Category]
+}
 
 struct ProductController: RouteCollection {
     func boot(routes: any RoutesBuilder) throws {
         let products = routes.grouped("products")
         products.get(use: index)
-        //products.post(use: create)
-        // products.get(":productID", use: show)
-        // products.put(":productID", use: update)
-        // products.delete(":productID", use: delete)
+        products.post(use: create)
+        products.get(":productID", use: show)
+        products.put(":productID", use: update)
+        products.delete(":productID", use: delete)
     }
 
-   func index(req: Request) -> EventLoopFuture<View> {
-        let emptyData: [Product] = []
+    func index(req: Request) throws -> EventLoopFuture<View> {
+        let success: Bool? = req.query[Bool.self, at: "success"]
 
-        return req.redis.get("Products", as: Data.self).flatMap { productsData in
-            let products: [Product]
-            if let data = productsData,
-            let decoded = try? JSONDecoder().decode([Product].self, from: data) {
-                products = decoded
-            } else {
-                products = emptyData
+        return Product.query(on: req.db).with(\.$category).all().flatMap { products in
+            Category.query(on: req.db).all().flatMap { categories in
+                let context = ProductContext(data: products, success: success, categories: categories)
+                return req.view.render("products", context)
             }
-
-            return req.view.render("products", ["products": products])
         }
     }
 
-
-    func create(req: Request) -> EventLoopFuture<Response> {
-        // Odbierz dane formularza i spróbuj zdekodować do Product
-        req.content.decode(Product.self)
-    
+    func create(req: Request) throws -> EventLoopFuture<Response> {
+        let formData = try req.content.decode(ProductFormData.self)
+        let product = Product(name: formData.name, price: formData.price, categoryID: formData.categoryID)
+        return product.save(on: req.db).map {
+            req.redirect(to: "/products?success=true")
+        }
     }
-}
 
+    func show(req: Request) throws -> EventLoopFuture<Product> {
+        Product.find(req.parameters.get("productID"), on: req.db)
+            .unwrap(or: Abort(.notFound))
+    }
 
-    // func show(req: Request) async throws -> Product {
-    //     guard let id = req.parameters.get("productID"),
-    //           let data = try await req.redis.get("product:\(id)"),
-    //           let product = try? JSONDecoder().decode(Product.self, from: data) else {
-    //         throw Abort(.notFound)
-    //     }
-    //     return product
-    // }
+    func update(req: Request) throws -> EventLoopFuture<Product> {
+        let updated = try req.content.decode(Product.self)
 
-    // func update(req: Request) async throws -> Product {
-    //     let updated = try req.content.decode(Product.self)
-    //     let encoded = try JSONEncoder().encode(updated)
-    //     req.redis.set("product:\(updated.id)", to: encoded)
-    //     return updated
-    // }
+        return Product.find(req.parameters.get("productID"), on: req.db)
+            .unwrap(or: Abort(.notFound)).flatMap { product in
+                product.name = updated.name
+                product.price = updated.price
+                product.$category.id = updated.$category.id
+                return product.save(on: req.db).map { product }
+            }
+    }
 
-    // func delete(req: Request) async throws -> HTTPStatus {
-    //     guard let id = req.parameters.get("productID") else {
-    //         throw Abort(.badRequest)
-    //     }
-    //     req.redis.delete("product:\(id)")
-    //     return .noContent
-    // }
+    func delete(req: Request) throws -> EventLoopFuture<HTTPStatus> {
+        Product.find(req.parameters.get("productID"), on: req.db)
+            .unwrap(or: Abort(.notFound))
+            .flatMap { $0.delete(on: req.db) }
+            .transform(to: .noContent)
+    }
 }
