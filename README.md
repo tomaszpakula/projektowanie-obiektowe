@@ -153,7 +153,7 @@ ORM Fluent
 ✅ 4.0 Należy stworzyć drugi model oraz kontroler Kategorii wraz z
 relacją
 
-🔳 4.5 Należy wykorzystać Redis do przechowywania danych
+✅ 4.5 Należy wykorzystać Redis do przechowywania danych
 
 🔳 5.0 Wrzucić aplikację na heroku
 

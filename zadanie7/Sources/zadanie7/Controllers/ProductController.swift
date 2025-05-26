@@ -1,5 +1,6 @@
 import Fluent
 import Vapor
+@preconcurrency import Redis
 
 struct ProductFormData: Content {
     let name: String
@@ -24,23 +25,49 @@ struct ProductController: RouteCollection {
     }
 
     func index(req: Request) throws -> EventLoopFuture<View> {
-        let success: Bool? = req.query[Bool.self, at: "success"]
+    let redisKey = RedisKey("products_list") 
 
-        return Product.query(on: req.db).with(\.$category).all().flatMap { products in
-            Category.query(on: req.db).all().flatMap { categories in
-                let context = ProductContext(data: products, success: success, categories: categories)
+    return req.redis.get(redisKey, as: Data.self).flatMap { cachedData in
+        if let data = cachedData {
+            let products = (try? JSONDecoder().decode([Product].self, from: data)) ?? []
+            return Category.query(on: req.db).all().flatMap { categories in
+                let context = ProductContext(data: products, success: nil, categories: categories)
                 return req.view.render("products", context)
             }
         }
-    }
-
-    func create(req: Request) throws -> EventLoopFuture<Response> {
-        let formData = try req.content.decode(ProductFormData.self)
-        let product = Product(name: formData.name, price: formData.price, categoryID: formData.categoryID)
-        return product.save(on: req.db).map {
-            req.redirect(to: "/products?success=true")
+ else {
+            return Product.query(on: req.db).with(\.$category).all().flatMap { products in
+                do {
+                    let encodedData = try JSONEncoder().encode(products)
+                    return req.redis.set(redisKey, to: encodedData).flatMap {
+                        Category.query(on: req.db).all().flatMap { categories in
+                            let context = ProductContext(data: products, success: nil, categories: categories)
+                            return req.view.render("products", context)
+                        }
+                    }
+                } catch {
+                     return Category.query(on: req.db).all().flatMap { categories in
+                        let context = ProductContext(data: products, success: nil, categories: categories)
+                        return req.view.render("products", context)
+                     }
+                }
+            }
         }
     }
+}
+
+func create(req: Request) throws -> EventLoopFuture<Response> {
+    let formData = try req.content.decode(ProductFormData.self)
+    let product = Product(name: formData.name, price: formData.price, categoryID: formData.categoryID)
+    return product.save(on: req.db).flatMap {
+        let redisKey = RedisKey("products_list")  
+        return req.redis.delete(redisKey).flatMap { _ in
+            req.eventLoop.future(req.redirect(to: "/products?success=true"))
+        }
+    }
+}
+
+
 
     func show(req: Request) throws -> EventLoopFuture<Product> {
         Product.find(req.parameters.get("productID"), on: req.db)
