@@ -1,3 +1,6 @@
 **/.env
 **/.build
 **/.vscode
+**/.idea
+**/node_modules
+**/google-chrome-stable_current_amd64.deb

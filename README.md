@@ -158,3 +158,19 @@ relacją
 🔳 5.0 Wrzucić aplikację na heroku
 
 [katalog](https://github.com/tomaszpakula/projektowanie-obiektowe/tree/main/zadanie7)
+
+# **Zadanie 8** Testy
+
+✅ 3.0 Należy stworzyć 30 przypadków testowych w Pythonie w WebDriverze
+
+✅ 3.5 Należy rozszerzyć testy funkcjonalne, aby zawierały minimum 100
+asercji
+
+✅ 4.0 Należy stworzyć testy jednostkowe do wybranego wcześniejszego
+projektu z minimum 100 asercjami
+
+✅ 4.5 Należy dodać testy API, należy pokryć wszystkie endpointy z
+minimum jednym scenariuszem negatywnym per endpoint
+
+✅ 5.0 Należy uruchomić testy funkcjonalne na Browserstacku na urządzeniu
+mobilnym
