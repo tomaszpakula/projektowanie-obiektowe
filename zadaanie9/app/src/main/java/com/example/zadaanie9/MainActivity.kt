@@ -13,6 +13,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.example.zadaanie9.ui.theme.Zadaanie9Theme
 
 class MainActivity : ComponentActivity() {
@@ -21,25 +22,17 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             Zadaanie9Theme {
-                Surface (modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
-
+                Surface (modifier = Modifier.fillMaxSize().padding(top=18.dp), color = MaterialTheme.colorScheme.background) {
+                    ProductList()
                 }
             }
         }
     }
 }
 
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
 @Preview(showBackground = true)
 @Composable
-fun GreetingPreview() {
+fun ProductList() {
     Zadaanie9Theme {
         ProductListScreen()
     }
