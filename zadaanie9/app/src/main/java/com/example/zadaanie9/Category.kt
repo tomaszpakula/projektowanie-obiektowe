@@ -1,6 +1,9 @@
 package com.example.zadaanie9
 
-data class Category(
-    val id: Int,
-    val name: String
-)
+import io.realm.kotlin.types.RealmObject
+import io.realm.kotlin.types.annotations.PrimaryKey
+
+open class Category: RealmObject{
+    @PrimaryKey var id: Int = 0
+    var name: String = ""
+}

@@ -61,10 +61,10 @@ fun CartItemScreen(item: CartItem) {
 
 }
 
-@Preview(showBackground = true)
+/*@Preview(showBackground = true)
 @Composable
 fun ShowCartItemScreen() {
     val sampleItem: CartItem = CartItem(1,1,5)
     CartItemScreen(sampleItem)
-}
+}*/
 

@@ -2,6 +2,8 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.realm)
+
 }
 
 android {
@@ -10,6 +12,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.zadaanie9"
+
         minSdk = 24
         targetSdk = 35
         versionCode = 1
@@ -47,6 +50,7 @@ dependencies {
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.ui)
     implementation(libs.androidx.ui.graphics)
+    implementation(libs.library.base)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
     testImplementation(libs.junit)

@@ -88,10 +88,10 @@ fun ProductScreen(product: Product) {
 
 }
 
-@Preview(showBackground = true)
+/*@Preview(showBackground = true)
 @Composable
 fun ShowProductScreen() {
     val sampleProduct: Product = Product(100, "applee", 20.6, 1)
     ProductScreen(DataProvider.getAllProducts()[0])
-}
+}*/
 

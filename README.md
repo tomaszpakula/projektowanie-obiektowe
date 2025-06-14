@@ -185,7 +185,7 @@ Należy:
 
 ✅ 3.5 dodać widok koszyka
 
-🔳 4.0 stworzyć bazę w Realmie
+✅ 4.0 stworzyć bazę w Realmie
 
 🔳 4.5 dodać płatności w Stripe
 

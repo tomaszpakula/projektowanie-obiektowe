@@ -1,5 +1,6 @@
 package com.example.zadaanie9
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -28,7 +29,6 @@ import androidx.navigation.NavController
 @Composable
 fun ProductListScreen(navController: NavController? = null) {
     val products = DataProvider.getAllProducts()
-
     Column(modifier=Modifier.padding(30.dp).fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally) {
         Row(
             modifier = Modifier.fillMaxWidth(),

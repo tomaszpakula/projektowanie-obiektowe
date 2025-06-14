@@ -1,7 +1,11 @@
 package com.example.zadaanie9
 
-data class CartItem(
-    val id: Int,
-    val productId: Int,
-    var quantity: Int
-)
+import io.realm.kotlin.types.RealmObject
+import io.realm.kotlin.types.annotations.PrimaryKey
+
+open class CartItem: RealmObject {
+    @PrimaryKey
+    var id: Int = 0
+    var productId: Int = 0
+    var quantity: Int = 0
+}

@@ -1,8 +1,12 @@
 package com.example.zadaanie9
 
-data class Product(
-    val id: Int,
-    val name: String,
-    val price: Double,
-    val categoryId: Int
-)
+import io.realm.kotlin.types.RealmObject
+import io.realm.kotlin.types.annotations.PrimaryKey
+
+open class Product: RealmObject {
+    @PrimaryKey
+    var id: Int = 0
+    var name: String = ""
+    var price: Double = 0.0
+    var categoryId: Int = 0
+}
