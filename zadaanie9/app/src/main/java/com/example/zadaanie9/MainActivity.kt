@@ -14,6 +14,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.example.zadaanie9.ui.theme.Zadaanie9Theme
 
 class MainActivity : ComponentActivity() {
@@ -21,19 +24,21 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            Zadaanie9Theme {
-                Surface (modifier = Modifier.fillMaxSize().padding(top=18.dp), color = MaterialTheme.colorScheme.background) {
-                    ProductList()
-                }
-            }
+            App()
         }
     }
 }
 
 @Preview(showBackground = true)
 @Composable
-fun ProductList() {
+fun App() {
     Zadaanie9Theme {
-        ProductListScreen()
+        Surface (modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
+            val navController = rememberNavController()
+            NavHost(navController = navController, startDestination = "products") {
+                composable("products") { ProductListScreen(navController)}
+                composable("cart") { CartScreen(navController)  }
+            }
+        }
     }
 }

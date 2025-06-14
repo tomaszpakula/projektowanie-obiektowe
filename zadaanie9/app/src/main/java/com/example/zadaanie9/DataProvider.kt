@@ -14,12 +14,32 @@ object DataProvider {
         Product(5, "Ananas", 20.20, 1)
     )
 
+    var cart = mutableListOf<CartItem>(
+        CartItem(1, 1, 5)
+    )
+
     fun getAllProducts(): List<Product> = products
 
     fun getAllCategories():  List<Category> = categories
 
     fun getCategoryById(categoryId: Int): String {
         return categories.find { it.id == categoryId }?.name ?: "Nieznana"
+    }
+
+    fun addProductToCart(productId: Int, quantity: Int){
+        val item: CartItem? = cart.find { it.productId == productId }
+        if(item!=null){
+            item.quantity += quantity
+        }
+        else{
+            cart.add(CartItem(cart.size, productId, quantity ))
+        }
+    }
+
+    fun getCartProducts(): List<CartItem> = cart
+
+    fun getProductById(id: Int): Product?{
+        return products.find { it.id == id }
     }
 
 }

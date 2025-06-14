@@ -183,7 +183,7 @@ Należy:
 
 ✅ 3.0 stworzyć listę kategorii oraz produktów
 
-🔳 3.5 dodać widok koszyka
+✅ 3.5 dodać widok koszyka
 
 🔳 4.0 stworzyć bazę w Realmie
 
