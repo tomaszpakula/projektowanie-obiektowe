@@ -9,3 +9,4 @@ open class CartItem: RealmObject {
     var productId: Int = 0
     var quantity: Int = 0
 }
+

@@ -187,6 +187,6 @@ Należy:
 
 ✅ 4.0 stworzyć bazę w Realmie
 
-🔳 4.5 dodać płatności w Stripe
+✅ 4.5 dodać płatności w Stripe
 
 🔳 5.0 dodać logowanie i rejestrację via Oauth2

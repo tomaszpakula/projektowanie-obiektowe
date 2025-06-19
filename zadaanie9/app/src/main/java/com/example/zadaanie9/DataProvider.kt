@@ -101,4 +101,11 @@ object DataProvider {
         return realm.query<Product>("id == $0", id).first().find()
     }
 
+    fun clearCart() {
+        realm.writeBlocking {
+            val items = query<CartItem>().find()
+            delete(items)
+        }
+    }
+
 }
